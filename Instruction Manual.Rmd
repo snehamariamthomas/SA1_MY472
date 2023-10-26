@@ -1,0 +1,66 @@
+---
+title: 'Understanding Function: calculate_radius_and_area'
+output:
+  html_document: default
+  pdf_document: default
+---
+
+```{r setup, include=FALSE} 
+# this chunk contains code that sets global options for the entire .Rmd. 
+# we use include=FALSE to suppress it from the top of the document, but it will still appear in the appendix. 
+
+knitr::opts_chunk$set(echo = FALSE) # actually set the global chunk options. 
+# we set echo=FALSE to suppress code such that it by default does not appear throughout the document. 
+# note: this is different from .Rmd default
+```
+
+# __About the function__  
+
+The function __calculate_radius_and_area__ is designed to process a dataset in R, allowing users to calculate both the radius and area of circles from a specific numeric column. When invoked:  
+1. The function first validates whether the provided data is a valid data frame and checks if the specified column contains numeric values.  
+2. If the conditions are met, the function computes the radius for each row by dividing the values in the specified column by 2*pi.  
+3. Finally, it also then calculates the corresponding circle areas by squaring the radius and multiplying it by pi.  
+
+# __General Use Case of Function__  
+Both the radius and area values are appended as new columns to the original dataset, enhancing it with valuable geometric information. This function finds utility in various scenarios, such as in scientific research, engineering, or data analysis, where transforming raw data into geometric parameters is necessary for further analysis or visualisation tasks. 
+
+# __Example__  
+The below example uses the function on a pre-built dataset of R titled Orange to explain the working of the function:
+```{r}
+# Define a function called 'calculate_radius_and_area' with two arguments: 'data' and 'column_name'
+calculate_radius_and_area <- function(data, column_name) {
+  # Check if the input data is a data frame
+  if (!is.data.frame(data)) {
+    print("Error: Input is not a data frame.")
+    return(NULL)
+  } else {
+    # Check if the specified column is numeric
+    if (is.numeric(data[[column_name]])) {
+      # Calculate radius from specified column
+      data$radius <- data[[column_name]] / (2 * pi)
+      
+      # Calculate area from radius (area = pi * radius^2)
+      data$area <- pi * (data$radius)^2
+      
+      # Return the modified data frame with added 'radius' and 'area' columns
+      return(data)
+    } else {
+      print("Error: Specified column is not numeric.")
+      return(NULL)
+    }
+  }
+}
+```
+
+```{r, echo=TRUE}
+transformed_data <- calculate_radius_and_area(Orange, "circumference")
+print(transformed_data)
+```
+
+
+
+
+
+
+
+
